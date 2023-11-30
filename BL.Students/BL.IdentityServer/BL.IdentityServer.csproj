@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BL.IdentityServer.Application\BL.IdentityServer.Application.csproj" />
     <ProjectReference Include="..\BL.IdentityServer.Domain\BL.IdentityServer.Domain.csproj" />
+    <ProjectReference Include="..\BL.IdentityServer.Infrastructure\BL.IdentityServer.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

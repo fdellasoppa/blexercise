@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BL.IdentityServer.Domain.Users;
+using Microsoft.AspNetCore.Identity;
 
-namespace BL.IdentityServer.Application.Users
+namespace BL.IdentityServer.Application.Users;
+
+public interface IUserService
 {
-    internal class IUserService
-    {
-    }
+    Task<IdentityResult> CreateAsync(User user);
 }
