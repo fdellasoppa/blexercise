@@ -1,7 +1,6 @@
 using BL.IdentityServer.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace BL.IdentityServer.Controllers;
 
@@ -9,34 +8,31 @@ namespace BL.IdentityServer.Controllers;
 [Route("[user]")]
 public class UserController : ControllerBase
 {
-
     private readonly ILogger<UserController> _logger;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public UserController(ILogger<UserController> logger)
+    public UserController(
+        ILogger<UserController> logger,
+        UserManager<ApplicationUser> userManager)
     {
         _logger = logger;
+        _userManager = userManager;
     }
 
-    // TODO: Move to a different layer?
-    //[HttpPost]
-    //public async Task<IActionResult> Create(User user)
-    //{
-    //    ApplicationUser appUser = new()
-    //    {
-    //        UserName = user.Name,
-    //        Email = user.Email
-    //    };
+    [HttpPost]
+    public async Task<IActionResult> Create(User user)
+    {
+        ApplicationUser appUser = new()
+        {
+            UserName = user.Name,
+            Email = user.Email
+        };
+    
+        // TODO: Move to a different layer?
+        IdentityResult result = await _userManager.CreateAsync(appUser, user.Password);
 
-    //    IdentityResult result = await userManager.CreateAsync(appUser, user.Password);
-
-    //    return result.Succeeded ? 
-    //        Ok() 
-    //        : throw new HttpResponseException(HttpStatusCode.InternalServerError); ;
-
-    //    //else
-    //    //{
-    //    //    foreach (IdentityError error in result.Errors)
-    //    //        ModelState.AddModelError("", error.Description);
-    //    //}
-    //}
+        return result.Succeeded ?
+            Ok()
+            : StatusCode(StatusCodes.Status500InternalServerError); // TODO: Add more info?
+    }
 }

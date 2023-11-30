@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BL.IdentityServer.Domain\BL.IdentityServer.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
