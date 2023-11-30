@@ -13,7 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 //    .AddTestUsers(IdentityConfiguration.TestUsers)
 //    .AddDeveloperSigningCredential();
 
-var mongoDbSettings = builder.Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+var mongoDbSettings = builder.Configuration
+    .GetSection(nameof(MongoDbSettings))
+    .Get<MongoDbSettings>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid> (
@@ -21,7 +23,9 @@ builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
         mongoDbSettings.Name
         );
 
-var identityServerSettings = builder.Configuration.GetSection(nameof(IdentityServerSettings)).Get<IdentityServerSettings>();
+var identityServerSettings = builder.Configuration
+    .GetSection(nameof(IdentityServerSettings))
+    .Get<IdentityServerSettings>();
 
 var idServer = builder.Services.AddIdentityServer(options =>
         {
@@ -35,7 +39,7 @@ var idServer = builder.Services.AddIdentityServer(options =>
     .AddInMemoryClients(identityServerSettings.Clients)
     .AddInMemoryIdentityResources(IdentityServerSettings.IdentityResources);
 
-if (builder.Environment.IsDevelopment())
+//if (builder.Environment.IsDevelopment())
     idServer.AddDeveloperSigningCredential();
 
 var app = builder.Build();

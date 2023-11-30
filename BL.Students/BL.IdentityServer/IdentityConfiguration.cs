@@ -54,7 +54,7 @@ public class IdentityConfiguration
         {
             new Client
             {
-                ClientId = "client",
+                ClientId = "students",
                 ClientName = "Client Credentials Client",
                 AllowedGrantTypes = GrantTypes.ClientCredentials,
                 ClientSecrets = { new Secret("secret".Sha256()) },
