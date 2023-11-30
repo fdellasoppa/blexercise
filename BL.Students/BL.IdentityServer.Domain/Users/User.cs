@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BL.IdentityServer.Models;
+namespace BL.IdentityServer.Domain.Users;
 
 public class User
 {

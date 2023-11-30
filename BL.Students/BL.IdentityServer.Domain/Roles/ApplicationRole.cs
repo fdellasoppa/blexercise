@@ -2,7 +2,7 @@
 using MongoDbGenericRepository.Attributes;
 
 
-namespace BL.IdentityServer.Models;
+namespace BL.IdentityServer.Domain.Roles;
 
 [CollectionName("Roles")]
 public class ApplicationRole : MongoIdentityRole<Guid>

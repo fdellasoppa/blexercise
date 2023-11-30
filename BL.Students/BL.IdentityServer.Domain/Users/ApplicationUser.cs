@@ -2,7 +2,7 @@
 using MongoDbGenericRepository.Attributes;
 
 
-namespace BL.IdentityServer.Models;
+namespace BL.IdentityServer.Domain.Users;
 
 [CollectionName("Users")]
 public class ApplicationUser : MongoIdentityUser<Guid>

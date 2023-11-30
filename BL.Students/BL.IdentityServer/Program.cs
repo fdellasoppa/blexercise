@@ -1,5 +1,6 @@
 using BL.IdentityServer;
-using BL.IdentityServer.Models;
+using BL.IdentityServer.Domain.Users;
+using BL.IdentityServer.Domain.Roles;
 
 var builder = WebApplication.CreateBuilder(args);
 

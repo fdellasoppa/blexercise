@@ -1,4 +1,4 @@
-using BL.IdentityServer.Models;
+using BL.IdentityServer.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
