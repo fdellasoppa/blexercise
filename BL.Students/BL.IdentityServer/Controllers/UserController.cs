@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BL.IdentityServer.Controllers;
 
 [ApiController]
-[Route("[user]")]
+[Route("[controller]")]
 public class UserController : ControllerBase
 {
     private readonly ILogger<UserController> _logger;
@@ -23,15 +23,8 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(User user)
     {
-        // TODO: Move mapping to repository???
-        //User appUser = new()
-        //{
-        //    Name = user.Name,
-        //    Email = user.Email
-        //};
-    
-        // TODO: Move to a different layer?
-        //IdentityResult result = await _userService.CreateAsync(appUser, user.Password);
+        // TODO: Add password rules validations
+        // TODO: Fix start redirection to Swagger
         IdentityResult result = await _userService.CreateAsync(user);
 
         return result.Succeeded ?
