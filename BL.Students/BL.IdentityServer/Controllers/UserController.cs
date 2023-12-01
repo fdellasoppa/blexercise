@@ -1,5 +1,6 @@
 using BL.IdentityServer.Application.Users;
 using BL.IdentityServer.Domain.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +22,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
+    //[Authorize]
     public async Task<IActionResult> Create(User user)
     {
-        // TODO: Add password rules validations
+        // TODO: User name only digits and chars
+        // TODO: Duplicate username validation
         IdentityResult result = await _userService.CreateAsync(user);
 
         return result.Succeeded ?

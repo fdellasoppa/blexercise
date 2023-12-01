@@ -15,6 +15,16 @@ namespace BL.IdentityServer.Domain.Test.DataAnnotations
 
         internal static ValidationResult? FindError(
             object model,
+            string memberName)
+        {
+            var validations = ValidateModel(model);
+            return validations.FirstOrDefault(v =>
+                v.ErrorMessage is not null
+                && v.MemberNames.Contains(memberName));
+        }
+
+        internal static ValidationResult? FindError(
+            object model,
             string memberName,
             string errorMessagePart)
         {
