@@ -24,7 +24,6 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Create(User user)
     {
         // TODO: Add password rules validations
-        // TODO: Fix start redirection to Swagger
         IdentityResult result = await _userService.CreateAsync(user);
 
         return result.Succeeded ?
