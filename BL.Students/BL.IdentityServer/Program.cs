@@ -4,6 +4,7 @@ using BL.IdentityServer.Domain.Roles;
 using Microsoft.OpenApi.Models;
 using BL.IdentityServer.Application.Users;
 using BL.IdentityServer.Infrastructure.Users;
+using BL.IdentityServer.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,8 +46,11 @@ var idServer = builder.Services.AddIdentityServer(options =>
     .AddInMemoryClients(identityServerSettings.Clients)
     .AddInMemoryIdentityResources(IdentityServerSettings.IdentityResources);
 
-if (builder.Environment.IsDevelopment())
+if (!builder.Environment.IsProduction())
+{
     idServer.AddDeveloperSigningCredential();
+    idServer.SeedData();
+}
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
