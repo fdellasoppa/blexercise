@@ -30,7 +30,7 @@ public class UserController : ControllerBase
 
         return result.DoesUserExist ?
             Conflict()
-            : result.IsPasswordValid ?
+            : result.IsPasswordOrNameInvalid ?
                 BadRequest() :
                     result.IdentityResult != null
                     && result.IdentityResult.Succeeded ?

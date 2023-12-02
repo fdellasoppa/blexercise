@@ -24,11 +24,11 @@ public class UserService : IUserService
             };
         }
 
-        if (!user.HasValidPassword())
+        if (!user.HasValidPassword() || !user.HasValidName())
         {
             return new CreateUserResult()
             {
-                IsPasswordValid = true,
+                IsPasswordOrNameInvalid = true,
             };
         }
 
