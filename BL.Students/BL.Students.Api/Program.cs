@@ -1,3 +1,4 @@
+using BL.IdentityServer;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +43,10 @@ builder.Services.AddAuthentication("Bearer").AddIdentityServerAuthentication("Be
     options.ApiName = "myApi";
     options.Authority = "https://localhost:7237";
 });
+
+var mongoDbSettings = builder.Configuration
+    .GetSection(nameof(MongoDbSettings))
+    .Get<MongoDbSettings>();
 
 var app = builder.Build();
 

@@ -1,5 +1,10 @@
 # blexercise
 
+## User Story
+I, as a Students Api user, need the ability to create, update, get one by id, get all, and delete students.
+
+AC1: Students should have an id, Name, Address and SSN.
+
 ## Setup and Run
 Code: https://github.com/fdellasoppa/blexercise.git
 
