@@ -1,8 +1,9 @@
-﻿using BL.Students.Application.Student;
+﻿using BL.Students.Domain.Students;
+using BL.Students.Application.Students;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BL.Students.Api.Student;
+namespace BL.Students.Api.Students;
 
 [ApiController]
 [Route("[controller]")]
@@ -21,23 +22,22 @@ public class StudentController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public Task<IActionResult> Create(
-        string name, string address, string ssn)
+    public IActionResult Create(string name, string address, string ssn)
     {
-        throw new NotImplementedException();
+        _studentService.Create(name, address, ssn);
+        return Ok();
     }
 
     [HttpGet]
     [Authorize]
-    public Task<IActionResult> Get(
-        string name, string address, string ssn)
+    public IActionResult Get(Guid guid)
     {
         throw new NotImplementedException();
     }
 
     [HttpPatch]
     [Authorize]
-    public Task<IActionResult> Update(
+    public IActionResult Update(Guid guid,
         string name, string address, string ssn)
     {
         throw new NotImplementedException();
@@ -45,8 +45,7 @@ public class StudentController : ControllerBase
 
     [HttpDelete]
     [Authorize]
-    public Task<IActionResult> Delete(
-        string name, string address, string ssn)
+    public IActionResult Delete(Guid guid)
     {
         throw new NotImplementedException();
     }

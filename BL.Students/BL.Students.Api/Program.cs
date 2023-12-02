@@ -1,5 +1,4 @@
-using BL.IdentityServer;
-using BL.Students.Application.Student;
+using BL.Students.Application.Students;
 using BL.Students.Infrastructure.Data;
 using BL.Students.Infrastructure.Students;
 using Microsoft.OpenApi.Models;
@@ -52,7 +51,7 @@ builder.Services.AddAuthentication("Bearer").AddIdentityServerAuthentication("Be
 //.Get<MongoDbSettings>();
 
 builder.Services.AddOptions();
-builder.Services.Configure<MongoConnectionOptions>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
+builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
 
 builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
 builder.Services.AddTransient<IStudentService, StudentService>();

@@ -12,11 +12,11 @@ public sealed class MongoDbContext : IMongoDbContext
         Database = Client.GetDatabase(DatabaseName);
     }
 
-    public MongoDbContext(IOptions<MongoConnectionOptions> options)
+    public MongoDbContext(IOptions<MongoDbSettings> options)
     {
         var mongoOptions = options.Value;
         Client = new MongoClient(mongoOptions.ConnectionString);
-        DatabaseName = mongoOptions.DatabaseName;
+        DatabaseName = mongoOptions.Name;
         Database = Client.GetDatabase(DatabaseName);
     }
 
