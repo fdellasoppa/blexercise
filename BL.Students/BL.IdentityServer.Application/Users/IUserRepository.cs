@@ -5,5 +5,7 @@ namespace BL.IdentityServer.Application.Users;
 
 public interface IUserRepository
 {
-    Task<IdentityResult> CreateAsync(User user);
+    Task<IdentityResult> CreateAsync(ApplicationUser user, string password);
+    Task<ApplicationUser> FindByEmailAsync(string email);
+    Task<SignInResult> LoginAsync(ApplicationUser user, string password);
 }

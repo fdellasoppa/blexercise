@@ -5,9 +5,11 @@ using Microsoft.OpenApi.Models;
 using BL.IdentityServer.Application.Users;
 using BL.IdentityServer.Infrastructure.Users;
 using BL.IdentityServer.Infrastructure.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// TODO: Move to Dependency Injection extension class
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 
@@ -84,11 +86,19 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-builder.Services.AddAuthentication("Bearer").AddIdentityServerAuthentication("Bearer", options =>
-{
-    options.ApiName = "myApi";
-    options.Authority = "https://localhost:7237";
-});
+//builder.Services.AddAuthentication("Bearer")
+//    .AddIdentityServerAuthentication("Bearer", options =>
+//{
+//    options.ApiName = "myApi";
+//    options.Authority = "https://localhost:7237";
+//});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://localhost:7237";
+        options.Audience = "myApi";
+    });
 
 var app = builder.Build();
 

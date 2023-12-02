@@ -22,15 +22,28 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> Create(User user)
     {
         // TODO: User name only digits and chars
         // TODO: Duplicate username validation
-        IdentityResult result = await _userService.CreateAsync(user);
+        var result = await _userService.CreateAsync(user);
 
         return result.Succeeded ?
             Ok()
             : StatusCode(StatusCodes.Status500InternalServerError); // TODO: Add more info?
     }
+
+    [HttpPost]
+    [Route("Login")]
+    public async Task<IActionResult> Login(string email, string password)
+    {
+        var result = await _userService.LoginAsync(email, password);
+
+        return result != null 
+            && result.Succeeded ?
+                Ok()
+                : Unauthorized();
+    }
+
 }

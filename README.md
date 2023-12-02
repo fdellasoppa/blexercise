@@ -30,3 +30,7 @@ Decided on this approach as KeyCloak does not support Mongo database for backup.
 10) TDD before adding password validations to the model. Added email tests even not really valid (see comment on UserTests).
 
 11) Test docker compose for database: Use "docker compose up -d"
+
+12) Following:
+https://www.yogihosting.com/aspnet-core-identity-mongodb/
+https://www.yogihosting.com/identityserver-aspnet-core-identity-mongodb-database

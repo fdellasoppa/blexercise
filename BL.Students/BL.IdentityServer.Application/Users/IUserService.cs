@@ -6,4 +6,5 @@ namespace BL.IdentityServer.Application.Users;
 public interface IUserService
 {
     Task<IdentityResult> CreateAsync(User user);
+    Task<SignInResult?> LoginAsync(string email, string password);
 }

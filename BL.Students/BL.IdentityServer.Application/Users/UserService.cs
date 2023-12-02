@@ -14,6 +14,22 @@ public class UserService : IUserService
 
     public Task<IdentityResult> CreateAsync(User user)
     {
-        return _userRepository.CreateAsync(user);
+        ApplicationUser appUser = new()
+        {
+            UserName = user.Name,
+            Email = user.Email
+        };
+
+        return _userRepository.CreateAsync(appUser, user.Password);
+    }
+
+    public async Task<SignInResult?> LoginAsync(string email, string password)
+    {
+        ApplicationUser appUser = await _userRepository.FindByEmailAsync(email);
+        if (appUser != null)
+        {
+            return await _userRepository.LoginAsync(appUser, password);
+        }
+        return null;
     }
 }

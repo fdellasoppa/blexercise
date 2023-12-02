@@ -1,41 +1,34 @@
 ﻿using BL.IdentityServer.Application.Users;
 using BL.IdentityServer.Domain.Users;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace BL.IdentityServer.Infrastructure.Users;
 
-public class UserRepository : UserManager<ApplicationUser>, IUserRepository
+public class UserRepository : IUserRepository
 {
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+
     public UserRepository(
-        IUserStore<ApplicationUser> store, 
-        IOptions<IdentityOptions> optionsAccessor, 
-        IPasswordHasher<ApplicationUser> passwordHasher, 
-        IEnumerable<IUserValidator<ApplicationUser>> userValidators, 
-        IEnumerable<IPasswordValidator<ApplicationUser>> passwordValidators, 
-        ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, 
-        IServiceProvider services, ILogger<UserManager<ApplicationUser>> logger) 
-        : base(store, 
-            optionsAccessor, 
-            passwordHasher, 
-            userValidators, 
-            passwordValidators, 
-            keyNormalizer, 
-            errors, 
-            services, 
-            logger)
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager)
     {
+        _userManager = userManager;
+        _signInManager = signInManager;
     }
 
-    public Task<IdentityResult> CreateAsync(User user)
+    public Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
     {
-        ApplicationUser appUser = new()
-        {
-            UserName = user.Name,
-            Email = user.Email
-        };
+        return _userManager.CreateAsync(user, password);
+    }
 
-        return CreateAsync(appUser, user.Password);
+    public Task<ApplicationUser> FindByEmailAsync(string email)
+    {
+        return _userManager.FindByEmailAsync(email);
+    }
+
+    public Task<SignInResult> LoginAsync(ApplicationUser user, string password)
+    {
+        return _signInManager.PasswordSignInAsync(user, password, false, false);
     }
 }
