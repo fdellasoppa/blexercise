@@ -1,5 +1,7 @@
 ﻿namespace BL.Students.Domain.Students;
 
+// TODO: I should probably move to this approach by Milan Jovanovic
+// for User Passwords and Names in IdentityServer
 public record SocialSecurityNumber
 {
     private const int NumbersLength = 9;
@@ -15,7 +17,24 @@ public record SocialSecurityNumber
             return null;
 
         if (value.Length == NumbersLength)
-            return new SocialSecurityNumber(value.Insert(3, "-").Insert(5,"-"));
+        {
+            if (value.All(char.IsDigit))
+            {
+                return new SocialSecurityNumber(value.Insert(5, "-").Insert(3, "-"));
+            }
+
+            return null;
+        }
+
+        if (value[3] != '-' || value[6] != '-')
+            return null;
+
+        var clean = value.Replace("-", string.Empty);
+        if (clean.Length != NumbersLength)
+            return null;
+
+        if (!clean.All(char.IsDigit))
+            return null;
 
         return value.Length != DefaultLength ?
             null
