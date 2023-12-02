@@ -1,4 +1,7 @@
 using BL.IdentityServer;
+using BL.Students.Application.Student;
+using BL.Students.Infrastructure.Data;
+using BL.Students.Infrastructure.Students;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,9 +47,16 @@ builder.Services.AddAuthentication("Bearer").AddIdentityServerAuthentication("Be
     options.Authority = "https://localhost:7237";
 });
 
-var mongoDbSettings = builder.Configuration
-    .GetSection(nameof(MongoDbSettings))
-    .Get<MongoDbSettings>();
+//var mongoDbSettings = builder.Configuration
+//    .GetSection(nameof(MongoDbSettings))
+//.Get<MongoDbSettings>();
+
+builder.Services.AddOptions();
+builder.Services.Configure<MongoConnectionOptions>(builder.Configuration.GetSection(nameof(MongoDbSettings)));
+
+builder.Services.AddSingleton<IMongoDbContext, MongoDbContext>();
+builder.Services.AddTransient<IStudentService, StudentService>();
+builder.Services.AddTransient<IStudentRepository, StudentRepository>();
 
 var app = builder.Build();
 

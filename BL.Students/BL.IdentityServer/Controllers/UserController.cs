@@ -1,7 +1,6 @@
 using BL.IdentityServer.Application.Users;
 using BL.IdentityServer.Domain.Users;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BL.IdentityServer.Controllers;
