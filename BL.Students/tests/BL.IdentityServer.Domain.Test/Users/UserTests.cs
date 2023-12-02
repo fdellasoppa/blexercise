@@ -13,6 +13,8 @@ namespace BL.IdentityServer.Domain.Test.Users
     public class UserTests
     {
 
+        #region Name
+
         [Test]
         public void NotNullNameInitialization()
         {
@@ -20,6 +22,52 @@ namespace BL.IdentityServer.Domain.Test.Users
 
             user.Name.Should().NotBeNull();
         }
+
+        [Test]
+        public void ValidNameCombined()
+        {
+            var user = new User
+            {
+                Name = "FedeD1"
+            };
+
+            user.HasValidName().Should().BeTrue();
+        }
+
+        [Test]
+        public void ValidNameAllNumbers()
+        {
+            var user = new User
+            {
+                Name = "12323432"
+            };
+
+            user.HasValidName().Should().BeTrue();
+        }
+
+        [Test]
+        public void ValidNameAllLetters()
+        {
+            var user = new User
+            {
+                Name = "FedeD"
+            };
+
+            user.HasValidName().Should().BeTrue();
+        }
+
+        [Test]
+        public void InvalidNameWhitespace()
+        {
+            var user = new User
+            {
+                Name = "Fede D"
+            };
+
+            user.HasValidName().Should().BeFalse();
+        }
+
+        #endregion
 
         #region Email
 
@@ -142,7 +190,7 @@ namespace BL.IdentityServer.Domain.Test.Users
                 Password = "No1?"
             };
 
-            user.IsValidPassword().Should().BeFalse();
+            user.HasValidPassword().Should().BeFalse();
         }
 
         [Test]
@@ -155,7 +203,7 @@ namespace BL.IdentityServer.Domain.Test.Users
                 Password = "Abcdefg123"
             };
 
-            user.IsValidPassword().Should().BeFalse();
+            user.HasValidPassword().Should().BeFalse();
         }
 
         [Test]
@@ -168,7 +216,7 @@ namespace BL.IdentityServer.Domain.Test.Users
                 Password = "Abcdefghij!#$%"
             };
 
-            user.IsValidPassword().Should().BeFalse();
+            user.HasValidPassword().Should().BeFalse();
         }
 
         [Test]
@@ -181,7 +229,7 @@ namespace BL.IdentityServer.Domain.Test.Users
                 Password = "abcdefghij!#$%"
             };
 
-            user.IsValidPassword().Should().BeFalse();
+            user.HasValidPassword().Should().BeFalse();
         }
 
         [Test]
@@ -194,10 +242,10 @@ namespace BL.IdentityServer.Domain.Test.Users
                 Password = "ABC1!#$%"
             };
 
-            user.IsValidPassword().Should().BeTrue();
+            user.HasValidPassword().Should().BeTrue();
         }
 
-        // TODO: Need to fix this and other chars not valid for passwords.
+        // TODO: Need to consider this for validation and other chars not valid for passwords.
         // Can't send new lines in JSON, but we should not make assumptions on the client.
         [Test]
         public void InvalidPasswordChars()
@@ -209,7 +257,7 @@ namespace BL.IdentityServer.Domain.Test.Users
                 Password = "ABC1\r\n!#$%"
             };
 
-            user.IsValidPassword().Should().BeFalse();
+            user.HasValidPassword().Should().BeFalse();
         }
 
         [Test]
@@ -222,7 +270,7 @@ namespace BL.IdentityServer.Domain.Test.Users
                 Password = "Passw0rd?"
             };
 
-            user.IsValidPassword().Should().BeTrue();
+            user.HasValidPassword().Should().BeTrue();
         }
 
         #endregion

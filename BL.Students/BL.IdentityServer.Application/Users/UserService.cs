@@ -24,7 +24,7 @@ public class UserService : IUserService
             };
         }
 
-        if (!user.IsValidPassword())
+        if (!user.HasValidPassword())
         {
             return new CreateUserResult()
             {

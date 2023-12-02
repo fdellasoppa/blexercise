@@ -17,7 +17,12 @@ public class User
     [StringLength(50)]
     public string Password { get; set; } = string.Empty;
 
-    public bool IsValidPassword()
+    public bool HasValidName()
+    {
+        return Name.All(char.IsLetterOrDigit);
+    }
+
+    public bool HasValidPassword()
     {
         return Password.Length > 7
             && ContainsUpper(Password)
