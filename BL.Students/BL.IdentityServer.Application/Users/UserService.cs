@@ -12,20 +12,41 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public Task<IdentityResult> CreateAsync(User user)
+    public async Task<CreateUserResult> CreateAsync(User user)
     {
-        ApplicationUser appUser = new()
+        var appUser = await _userRepository.FindByEmailAsync(user.Email);
+
+        if (appUser != null)
+        {
+            return new CreateUserResult()
+            {
+                DoesUserExist = true,
+            };
+        }
+
+        if (!user.IsValidPassword())
+        {
+            return new CreateUserResult()
+            {
+                IsPasswordValid = true,
+            };
+        }
+
+        appUser = new()
         {
             UserName = user.Name,
             Email = user.Email
         };
 
-        return _userRepository.CreateAsync(appUser, user.Password);
+        return new CreateUserResult()
+        {
+            IdentityResult = await _userRepository.CreateAsync(appUser, user.Password)
+        };
     }
 
     public async Task<SignInResult?> LoginAsync(string email, string password)
     {
-        ApplicationUser appUser = await _userRepository.FindByEmailAsync(email);
+        var appUser = await _userRepository.FindByEmailAsync(email);
         if (appUser != null)
         {
             return await _userRepository.LoginAsync(appUser, password);
