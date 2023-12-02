@@ -10,6 +10,20 @@ Code: https://github.com/fdellasoppa/blexercise.git
 
 Database: Run "docker compose up -d" on BL.Students folder. This is for the MongoDb.
 
+In order to test the User Create:
+- Use the Login endpoint with username "administrator@localhost" and password "Passw0rd!" seeded in the code
+- After that the Create endpoint should work with authorization
+
+In order to create a Student (I couldn't get the login to work in time):
+- Get a token with Postman with a POST at https://localhost:7237/connect/token
+  -- Body (x-www-form-urlencoded): 
+   grant_type = client_credentials
+   scope = api.read
+   client_id = students
+   client_secret = secret
+- Add this token in the Authorize section in Swagger
+- You can use the Create Student endpoint now
+
 ## Steps - Thought Process
 
 1) Think about the Use Case, with some interesting business logic. Games or Students CRUD? Can have SSN column for some logic.

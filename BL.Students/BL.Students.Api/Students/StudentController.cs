@@ -35,7 +35,7 @@ public class StudentController : ControllerBase
         throw new NotImplementedException();
     }
 
-    [HttpPatch]
+    [HttpPut]
     [Authorize]
     public IActionResult Update(Guid guid,
         string name, string address, string ssn)

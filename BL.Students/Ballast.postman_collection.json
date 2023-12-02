@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "65af3498-39e7-4601-88e0-bed7fb7996f9",
+		"name": "Ballast",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4336317"
+	},
+	"item": [
+		{
+			"name": "OpenIdConfig",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7237/.well-known/openid-configuration",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7237",
+					"path": [
+						".well-known",
+						"openid-configuration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "IdentityToken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "api.read",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "students",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "secret",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:7237/connect/token",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7237",
+					"path": [
+						"connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserCreate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"FedeD\",\r\n  \"email\": \"fede@example.com\",\r\n  \"password\": \"Passw0rd!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7237/User",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7237",
+					"path": [
+						"User"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "WeatherForecast",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM4MjhBMDlENUY5QkJGMTMxRjQwQjY3RkU3OUVERTgyIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE3MDEyNzY4MjcsImV4cCI6MTcwMTI4MDQyNywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIzNyIsImF1ZCI6Im15QXBpIiwiY2xpZW50X2lkIjoiY2xpZW50IiwianRpIjoiMDg4Mzc0OTk0MkUxN0M4Nzg0MzQ3MjQ4NjAwQjI5RjQiLCJpYXQiOjE3MDEyNzY4MjcsInNjb3BlIjpbImFwaS5yZWFkIl19.hcuiNZvZn-nS1FgAVhQ9q-yyb3HtR-ZLuJmeKM8O4m-k1ynaKad7Ho6NWHlnUol51Cdsj7zEk4KlvibM8rc6v88RTc0enpP0-bxD11RDGNnJqLpEXjK86G9zB12ii4yRcYdjdbp0STA1nDSExtlCsDaqpPuwZYSyzNApEUBHNq3H_Okdd_hdrnTtHTht5wQWu-QRtnLGSRdUNMi0vEXYWA-ZJRN5JxYsLPbg6R6dwEvpgwOIlT9f03VX4G25wmCY_39Fnu9gLIQbVY3D0w1RIwa11xUz1IrNHYoyusscahHio9eI6RXkJNBucT83Fokrj5llUhxf5Usw5gRFMI8eDQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7271/WeatherForecast",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7271",
+					"path": [
+						"WeatherForecast"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UserAuth",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "openid profile fullaccess",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "students",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://localhost:7237/connect/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "https://localhost:7237/connect/authorize",
+							"type": "string"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "urn:ietf:wg:oauth:2.0:oob",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code_with_pkce",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7271/WeatherForecast",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7271",
+					"path": [
+						"WeatherForecast"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
