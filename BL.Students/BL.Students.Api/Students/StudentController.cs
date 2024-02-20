@@ -1,5 +1,4 @@
-﻿using BL.Students.Domain.Students;
-using BL.Students.Application.Students;
+﻿using BL.Students.Application.Students;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,27 +30,30 @@ public class StudentController : ControllerBase
 
     [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetAsync(Guid guid,
+    public async Task<IActionResult> GetAsync(string guid,
         CancellationToken cancel)
     {
-        throw new NotImplementedException();
+        await _studentService.GetAsync(guid, cancel);
+        return Ok();
     }
 
     [HttpPut]
     [Authorize]
-    public async Task<IActionResult> UpdateAsync(Guid guid,
+    public async Task<IActionResult> UpdateAsync(string guid,
         string name, string address, string ssn,
         CancellationToken cancel)
     {
-        throw new NotImplementedException();
+        await _studentService.UpdateAsync(guid, name, address, ssn, cancel);
+        return Ok();
     }
 
     [HttpDelete]
     [Authorize]
-    public async Task<IActionResult> DeleteAsync(Guid guid, 
-        CancellationToken cancel)
+    public async Task<IActionResult> DeleteAsync(string guid,
+    CancellationToken cancel)
     {
-        throw new NotImplementedException();
+        await _studentService.DeleteAsync(guid, cancel);
+        return Ok();
     }
 
 }

@@ -6,5 +6,6 @@ public interface IStudentRepository
 {
     Task AddAsync(Student student, CancellationToken cancel);
     Task<Student?> GetAsync(Guid id, CancellationToken cancel);
+    Task UpdateAsync(Guid id, Student student, CancellationToken cancel);
     Task DeleteAsync(Guid id, CancellationToken cancel);
 }

@@ -30,6 +30,13 @@ public class StudentRepository : IStudentRepository
             cancel)).FirstOrDefault(cancel);
     }
 
+    public Task UpdateAsync(Guid id, Student student, CancellationToken cancel)
+    {
+        return _mongoDbContext.GetCollection<Student>(CollectionName)
+            .FindOneAndReplaceAsync(s => s.Id == new StudentId(id)
+            , student, null, cancel);
+    }
+
     public Task DeleteAsync(Guid id, CancellationToken cancel)
     {
         return _mongoDbContext.GetCollection<Student>(CollectionName)
