@@ -7,7 +7,7 @@ namespace BL.IdentityServer.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public sealed class UserController : ControllerBase
 {
     private readonly ILogger<UserController> _logger;
     private readonly IUserService _userService;
@@ -22,7 +22,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> Create(User user)
+    public async Task<IActionResult> CreateAsync(User user)
     {
         // TODO: User name only digits and chars
         var result = await _userService.CreateAsync(user);
@@ -39,7 +39,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("Login")]
-    public async Task<IActionResult> Login(string email, string password)
+    public async Task<IActionResult> LoginAsync(string email, string password)
     {
         var result = await _userService.LoginAsync(email, password);
 

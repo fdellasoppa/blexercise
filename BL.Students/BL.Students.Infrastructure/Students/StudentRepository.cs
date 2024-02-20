@@ -16,22 +16,24 @@ public class StudentRepository : IStudentRepository
         _mongoDbContext = mongoDbContext;
     }
 
-    public void Add(Student student)
-    {
-        _mongoDbContext.GetCollection<Student>(CollectionName).InsertOne(student);
-    }
-
-    public Student? Get(Guid id)
+    public Task AddAsync(Student student, CancellationToken cancel)
     {
         return _mongoDbContext.GetCollection<Student>(CollectionName)
-            .AsQueryable()
-            .FirstOrDefault(s => s.Id == new StudentId(id));
+            .InsertOneAsync(student, null, cancel);
     }
 
-    public bool Delete(Guid id)
+    public async Task<Student?> GetAsync(Guid id, CancellationToken cancel)
     {
-        var result = _mongoDbContext.GetCollection<Student>(CollectionName)
-            .DeleteMany(s => s.Id == new StudentId(id));
-        return result.DeletedCount > 0;
+        return (await _mongoDbContext.GetCollection<Student>(CollectionName)
+            .FindAsync(s => s.Id == new StudentId(id),
+            null,
+            cancel)).FirstOrDefault(cancel);
+    }
+
+    public Task DeleteAsync(Guid id, CancellationToken cancel)
+    {
+        return _mongoDbContext.GetCollection<Student>(CollectionName)
+            .DeleteManyAsync(s => s.Id == new StudentId(id),
+            cancel);
     }
 }

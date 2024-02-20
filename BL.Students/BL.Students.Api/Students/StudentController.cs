@@ -22,30 +22,34 @@ public class StudentController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public IActionResult Create(string name, string address, string ssn)
+    public async Task<IActionResult> CreateAsync(string name, string address, string ssn,
+        CancellationToken cancel)
     {
-        _studentService.Create(name, address, ssn);
+        await _studentService.CreateAsync(name, address, ssn, cancel);
         return Ok();
     }
 
     [HttpGet]
     [Authorize]
-    public IActionResult Get(Guid guid)
+    public async Task<IActionResult> GetAsync(Guid guid,
+        CancellationToken cancel)
     {
         throw new NotImplementedException();
     }
 
     [HttpPut]
     [Authorize]
-    public IActionResult Update(Guid guid,
-        string name, string address, string ssn)
+    public async Task<IActionResult> UpdateAsync(Guid guid,
+        string name, string address, string ssn,
+        CancellationToken cancel)
     {
         throw new NotImplementedException();
     }
 
     [HttpDelete]
     [Authorize]
-    public IActionResult Delete(Guid guid)
+    public async Task<IActionResult> DeleteAsync(Guid guid, 
+        CancellationToken cancel)
     {
         throw new NotImplementedException();
     }

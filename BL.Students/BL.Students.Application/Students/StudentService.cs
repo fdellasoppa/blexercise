@@ -11,7 +11,7 @@ public class StudentService : IStudentService
         _studentRepository = studentRepository;
     }
 
-    public void Create(string name, string address, string ssn)
+    public Task CreateAsync(string name, string address, string ssn, CancellationToken cancel)
     {
         var student = new Student(
             new StudentId(new Guid()),
@@ -19,6 +19,6 @@ public class StudentService : IStudentService
             address,
             SocialSecurityNumber.Create(ssn));
 
-        _studentRepository.Add(student);
+        return _studentRepository.AddAsync(student, cancel);
     }
 }

@@ -4,7 +4,7 @@ namespace BL.Students.Application.Students;
 
 public interface IStudentRepository
 {
-    void Add(Student student);
-    Student? Get(Guid id);
-    bool Delete(Guid id);
+    Task AddAsync(Student student, CancellationToken cancel);
+    Task<Student?> GetAsync(Guid id, CancellationToken cancel);
+    Task DeleteAsync(Guid id, CancellationToken cancel);
 }

@@ -1,8 +1,6 @@
-﻿using BL.Students.Domain.Students;
-
-namespace BL.Students.Application.Students;
+﻿namespace BL.Students.Application.Students;
 
 public interface IStudentService
 {
-    void Create(string name, string address, string ssn);
+    Task CreateAsync(string name, string address, string ssn, CancellationToken cancel);
 }
