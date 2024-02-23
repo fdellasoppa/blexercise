@@ -1,6 +1,6 @@
 ﻿namespace BL.Students.Application.Exceptions;
 
-public class InvalidIdException : Exception
+public class InvalidIdException : InputValidationException
 {
     public InvalidIdException() : base("Id is not valid")
     {
