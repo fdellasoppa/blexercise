@@ -1,4 +1,5 @@
-﻿using BL.Students.Application.Exceptions;
+﻿using BL.Students.Application.Abstractions;
+using BL.Students.Application.Exceptions;
 using BL.Students.Domain.Students;
 
 namespace BL.Students.Application.Students;
@@ -12,11 +13,12 @@ public class StudentService : IStudentService
         _studentRepository = studentRepository;
     }
 
-    public Task CreateAsync(string name, string address, string ssn, CancellationToken cancel)
+    public async Task<Result<StudentId>> CreateAsync(string name, string address, string ssn, CancellationToken cancel)
     {
         var social = SocialSecurityNumber.Create(ssn);
         if (social is null)
-            throw new ApplicationException("Ivalid social security number");
+            return Result<StudentId>.Failure(StudentErrors.InvalidSSN);
+            //throw new ApplicationException("Ivalid social security number");
 
         var student = new Student(
             new StudentId(new Guid()),
@@ -24,7 +26,9 @@ public class StudentService : IStudentService
             address,
             social);
 
-        return _studentRepository.AddAsync(student, cancel);
+        await _studentRepository.AddAsync(student, cancel);
+
+        return Result<StudentId>.Success(student.Id);
     }
 
     public Task<Student?> GetAsync(string id, CancellationToken cancel)

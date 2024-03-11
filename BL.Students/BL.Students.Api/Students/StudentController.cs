@@ -1,4 +1,7 @@
-﻿using BL.Students.Application.Students;
+﻿using BL.Students.Api.Errors;
+using BL.Students.Application.Abstractions;
+using BL.Students.Application.Students;
+using BL.Students.Domain.Students;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +24,11 @@ public class StudentController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> CreateAsync(string name, string address, string ssn,
+    public async Task<IResult> CreateAsync(string name, string address, string ssn,
         CancellationToken cancel)
     {
-        await _studentService.CreateAsync(name, address, ssn, cancel);
-        return Ok();
+        Result<StudentId> result = await _studentService.CreateAsync(name, address, ssn, cancel);
+        return result.IsSuccess ? TypedResults.Ok(result.Value) : result.ToProblemDetails();
     }
 
     [HttpGet]

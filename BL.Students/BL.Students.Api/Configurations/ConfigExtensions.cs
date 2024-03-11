@@ -11,6 +11,9 @@ public static class ConfigExtensions
 
     public static WebApplication ConfigServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
+
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -71,16 +74,13 @@ public static class ConfigExtensions
 
     public static void StartApplication(this WebApplication app)
     {
+        app.UseExceptionHandler();
+
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-        }
-
-        //if (!app.Environment.IsDevelopment())
-        {
-            app.UseExceptionHandler("/error");
         }
 
         app.UseHttpsRedirection();
