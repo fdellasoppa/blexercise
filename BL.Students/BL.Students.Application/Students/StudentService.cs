@@ -14,7 +14,7 @@ public class StudentService(IStudentRepository studentRepository) : IStudentServ
             //throw new ApplicationException("Ivalid social security number");
 
         var student = new Student(
-            new StudentId(new Guid()),
+            new StudentId(Guid.NewGuid()),
             name,
             address,
             social);
