@@ -28,8 +28,8 @@ var mongoDbSettings = builder.Configuration
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid> (
-        mongoDbSettings.ConnectionString, 
-        mongoDbSettings.Name
+        mongoDbSettings?.ConnectionString, 
+        mongoDbSettings?.Name
         );
 
 var identityServerSettings = builder.Configuration
@@ -43,9 +43,9 @@ var idServer = builder.Services.AddIdentityServer(options =>
             options.Events.RaiseErrorEvents = true;
         })
     .AddAspNetIdentity<ApplicationUser>()
-    .AddInMemoryApiScopes(identityServerSettings.ApiScopes)
-    .AddInMemoryApiResources(identityServerSettings.ApiResources)
-    .AddInMemoryClients(identityServerSettings.Clients)
+    .AddInMemoryApiScopes(identityServerSettings?.ApiScopes)
+    .AddInMemoryApiResources(identityServerSettings?.ApiResources)
+    .AddInMemoryClients(identityServerSettings?.Clients)
     .AddInMemoryIdentityResources(IdentityServerSettings.IdentityResources);
 
 if (!builder.Environment.IsProduction())

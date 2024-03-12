@@ -1,4 +1,5 @@
 ﻿using BL.Students.Api.Errors;
+using BL.Students.Api.Students;
 using BL.Students.Application.Students;
 using BL.Students.Infrastructure.Data;
 using BL.Students.Infrastructure.Students;
@@ -89,6 +90,7 @@ public static class ConfigExtensions
         app.UseAuthorization();
 
         app.MapControllers();
+        app.MapStudentEndpoints();
 
         app.Run();
     }

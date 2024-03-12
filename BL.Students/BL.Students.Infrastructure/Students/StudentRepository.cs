@@ -5,42 +5,40 @@ using MongoDB.Driver;
 
 namespace BL.Students.Infrastructure.Students;
 
-public class StudentRepository : IStudentRepository
+public class StudentRepository(IMongoDbContext mongoDbContext) : IStudentRepository
 {
     private const string CollectionName = nameof(Student);
 
-    private readonly IMongoDbContext _mongoDbContext;
-
-    public StudentRepository(IMongoDbContext mongoDbContext)
-    {
-        _mongoDbContext = mongoDbContext;
-    }
-
     public Task AddAsync(Student student, CancellationToken cancel)
     {
-        return _mongoDbContext.GetCollection<Student>(CollectionName)
-            .InsertOneAsync(student, null, cancel);
+        return mongoDbContext.GetCollection<Student>(CollectionName)
+                .InsertOneAsync(student, null, cancel);
     }
 
-    public async Task<Student?> GetAsync(Guid id, CancellationToken cancel)
+    public Task<Student?> GetAsync(StudentId id, CancellationToken cancel)
     {
-        return (await _mongoDbContext.GetCollection<Student>(CollectionName)
-            .FindAsync(s => s.Id == new StudentId(id),
-            null,
-            cancel)).FirstOrDefault(cancel);
+        return mongoDbContext.GetCollection<Student?>(CollectionName)
+            .Find(Builders<Student?>.Filter.Where(s => s!.Id == id))
+            .FirstOrDefaultAsync(cancel);
     }
 
-    public Task UpdateAsync(Guid id, Student student, CancellationToken cancel)
+    public Task UpdateAsync(StudentId id, Student student, CancellationToken cancel)
     {
-        return _mongoDbContext.GetCollection<Student>(CollectionName)
-            .FindOneAndReplaceAsync(s => s.Id == new StudentId(id)
+        return mongoDbContext.GetCollection<Student>(CollectionName)
+            .FindOneAndReplaceAsync(s => s.Id == id
             , student, null, cancel);
     }
 
-    public Task DeleteAsync(Guid id, CancellationToken cancel)
+    public Task DeleteAsync(StudentId id, CancellationToken cancel)
     {
-        return _mongoDbContext.GetCollection<Student>(CollectionName)
-            .DeleteManyAsync(s => s.Id == new StudentId(id),
+        return mongoDbContext.GetCollection<Student>(CollectionName)
+            .DeleteManyAsync(s => s.Id == id,
             cancel);
+    }
+
+    public Task<List<Student>> GetAllAsync(CancellationToken cancel)
+    {
+        return mongoDbContext.GetCollection<Student>(CollectionName)
+            .Find(Builders<Student>.Filter.Empty).ToListAsync(cancel);
     }
 }

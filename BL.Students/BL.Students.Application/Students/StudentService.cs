@@ -4,15 +4,8 @@ using BL.Students.Domain.Students;
 
 namespace BL.Students.Application.Students;
 
-public class StudentService : IStudentService
+public class StudentService(IStudentRepository studentRepository) : IStudentService
 {
-    private readonly IStudentRepository _studentRepository;
-
-    public StudentService(IStudentRepository studentRepository)
-    {
-        _studentRepository = studentRepository;
-    }
-
     public async Task<Result<StudentId>> CreateAsync(string name, string address, string ssn, CancellationToken cancel)
     {
         var social = SocialSecurityNumber.Create(ssn);
@@ -26,7 +19,7 @@ public class StudentService : IStudentService
             address,
             social);
 
-        await _studentRepository.AddAsync(student, cancel);
+        await studentRepository.AddAsync(student, cancel);
 
         return Result<StudentId>.Success(student.Id);
     }
@@ -40,7 +33,7 @@ public class StudentService : IStudentService
         if (!valid)
             throw new InvalidIdException();
 
-        return _studentRepository.GetAsync(guid, cancel);
+        return studentRepository.GetAsync(guid, cancel);
     }
 
     public async Task<Task> UpdateAsync(string id, string name, string address, string ssn, CancellationToken cancel)
@@ -52,7 +45,7 @@ public class StudentService : IStudentService
         if (!valid)
             throw new InvalidIdException();
 
-        var student = await _studentRepository.GetAsync(guid, cancel);
+        var student = await studentRepository.GetAsync(guid, cancel);
 
         if (student is null)
             throw new ApplicationException("Student not found!");
@@ -61,7 +54,7 @@ public class StudentService : IStudentService
         if (social is null)
             throw new ApplicationException("Ivalid social security number");
 
-        return _studentRepository.UpdateAsync(new Guid(id),
+        return studentRepository.UpdateAsync(new Guid(id),
             new Student(student.Id, name, address, social),
             cancel);
     }
@@ -75,6 +68,12 @@ public class StudentService : IStudentService
         if (!valid)
             throw new InvalidIdException();
 
-        return _studentRepository.DeleteAsync(guid, cancel);
+        return studentRepository.DeleteAsync(guid, cancel);
+    }
+
+    public async Task<Result<List<Student>>> GetAllAsync(CancellationToken cancel)
+    {
+        var res = await studentRepository.GetAllAsync(cancel);
+        return Result<List<Student>>.Success(res);
     }
 }
